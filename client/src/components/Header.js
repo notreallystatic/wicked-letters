@@ -5,7 +5,7 @@ import { removeUser } from '../redux';
 import { useSelector, shallowEqual } from 'react-redux';
 import axios from 'axios';
 
-export const Navbar = (props) => {
+export const Header = (props) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user, shallowEqual);
 
@@ -38,5 +38,3 @@ export const Navbar = (props) => {
     </nav>
   );
 };
-
-export default Navbar;

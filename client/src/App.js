@@ -5,10 +5,10 @@ import { store, setUser } from './redux';
 import { useDispatch } from 'react-redux';
 import Interceptor from './services/axiosInterceptor';
 import {
+  Header,
   Login,
   Register,
   Home,
-  Navbar,
   Dashboard,
   PrivateRoute,
   PublicRoute,
@@ -43,11 +43,11 @@ export const App = (props) => {
   return (
     <>
       <div>
-        <Navbar />
+        <Header />
         {loading ? (
           <Spinner />
         ) : (
-          <div style={{ padding: '15px', margin: '15px' }} className='deb'>
+          <div className='deb'>
             <Switch>
               <PublicRoute exact path='/' component={Home} />
               <PublicRoute exact path='/register' component={Register} />

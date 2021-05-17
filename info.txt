@@ -1,0 +1,14 @@
+Type of users:
+
+  1. Admin
+    -add/delete newsletters
+    -add/delete users
+
+  2. Registered
+    -add/delete reviews
+    -request to add newsletters
+
+  3. Guest
+    -see reviews & ratings on newsletters
+
+NOTE: all users can see reviews & ratings on any newsletters
