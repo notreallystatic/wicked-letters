@@ -1,0 +1,30 @@
+.footer {
+  min-height: 60px;
+  background: #737581;
+  color: white;
+  padding: 10px 20px;
+}
+
+.footer a {
+  text-decoration: none!important;
+  color: white;
+  width: 100%;
+}
+
+.footer a:hover {
+  color: #e1e1e1;
+}
+
+@media (max-width: 992px) { 
+  .footer {
+    min-height: 45px;
+  }
+}
+
+.copyright {
+  justify-content: center;
+  align-items: center;
+  font-size: .6rem;
+  margin-top: 15px;
+  margin-bottom: 5px;
+}

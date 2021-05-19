@@ -1,0 +1,25 @@
+.home1 {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.home2 {
+  max-width: 100%;
+}
+
+.home3 {
+  max-width: 100%;
+}
+
+.text{
+  margin: auto;
+  font-size: 1.44rem;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .home3 {
+    max-height: 100%;
+    max-width: 100%;
+  }
+}

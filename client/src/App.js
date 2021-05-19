@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import Interceptor from './services/axiosInterceptor';
 import {
   Header,
+  Footer,
   Login,
   Register,
   Home,
@@ -47,7 +48,7 @@ export const App = (props) => {
         {loading ? (
           <Spinner />
         ) : (
-          <div className='deb'>
+          <div className='body-content'>
             <Switch>
               <PublicRoute exact path='/' component={Home} />
               <PublicRoute exact path='/register' component={Register} />
@@ -56,6 +57,7 @@ export const App = (props) => {
             </Switch>
           </div>
         )}
+        <Footer />
       </div>
       <div className='push'></div>
     </>

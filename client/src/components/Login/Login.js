@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { setUser } from '../redux';
+import { setUser } from '../../redux';
 
 export const Login = (props) => {
   const [email, setEmail] = useState('');

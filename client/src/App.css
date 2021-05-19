@@ -2,6 +2,10 @@
   border: 1px solid orangered;
 }
 
+.body-content {
+  min-height: 90vh;
+}
+
 /* spinner */
 .lds-roller {
   display: inline-block;
@@ -20,7 +24,7 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #cef;
+  background:#320E3B;
   margin: -3px 0 0 -3px;
 }
 .lds-roller div:nth-child(1) {
