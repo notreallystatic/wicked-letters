@@ -87,6 +87,11 @@
 }
 
 @media (max-width: 422px) {
+
+  .navBrand {
+    margin-left: -10px;
+  }
+  
   .search {
     max-width: 150px;
   }

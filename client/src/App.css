@@ -4,6 +4,7 @@
 
 .body-content {
   min-height: 90vh;
+  margin: auto 15px;
 }
 
 /* spinner */

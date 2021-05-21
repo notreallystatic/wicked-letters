@@ -14,7 +14,7 @@ export const defaultTheme = {
   primaryFont: primaryFont,
   disabled: neutral[500],
   textOnDisabled: neutral[300],
-  textFieldBackground: neutral[200],
+  textFieldBackground: neutral[300],
   textFieldLabelColor: neutral[500],
   status: {
     warningColor: yellow[100],

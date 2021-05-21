@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { removeUser } from '../../redux';
 import { useSelector, shallowEqual } from 'react-redux';
 import axios from 'axios';
-import { PrimaryButton } from '../raw';
+import { PrimaryButton } from '../styled-components';
 
 export const Search = () => {
   return (
