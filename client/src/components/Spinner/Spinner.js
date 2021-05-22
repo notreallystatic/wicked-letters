@@ -1,4 +1,5 @@
 import React from 'react';
+import style from './Spinner.module.css';
 
 export const Spinner = () => {
   return (
@@ -11,7 +12,7 @@ export const Spinner = () => {
         alignItems: 'center',
       }}
     >
-      <div className='lds-roller'>
+      <div className={style.ldsRoller}>
         <div></div>
         <div></div>
         <div></div>

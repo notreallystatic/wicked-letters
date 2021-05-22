@@ -1,5 +1,6 @@
 const mongoose = require('mongoose'),
-  bcrypt = require('bcrypt');
+  bcrypt = require('bcrypt'),
+  Newsletter = require('./Newsletter.js');
 
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -7,6 +8,8 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   contact: { type: String },
   isVerified: { type: Boolean, default: false },
+  isAdmin: { type: Boolean, default: false },
+  newsletters: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Newsletter' }],
 });
 
 // Hash password everytime it is changed.

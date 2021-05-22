@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Switch } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { store, setUser } from './redux';
 import { useDispatch } from 'react-redux';
 import Interceptor from './services/axiosInterceptor';
@@ -14,6 +14,7 @@ import {
   PrivateRoute,
   PublicRoute,
   Spinner,
+  BrowseCategories,
 } from './components';
 import './App.css';
 
@@ -53,6 +54,11 @@ export const App = (props) => {
               <PublicRoute exact path='/' component={Home} />
               <PublicRoute exact path='/register' component={Register} />
               <PublicRoute exact path='/login' component={Login} />
+              <Route
+                exact
+                path='/browse-categories'
+                component={BrowseCategories}
+              />
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
             </Switch>
           </div>

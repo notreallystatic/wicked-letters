@@ -9,17 +9,6 @@ import { useSelector, shallowEqual } from 'react-redux';
 import axios from 'axios';
 import { PrimaryButton } from '../styled-components';
 
-export const Search = () => {
-  return (
-    <div className={style.search}>
-      <input type='text' id='search' placeholder='Search...'></input>
-      <button>
-        <span className='fas fa-search'></span>
-      </button>
-    </div>
-  );
-};
-
 export const Header = (props) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user, shallowEqual);
@@ -44,7 +33,6 @@ export const Header = (props) => {
         <br />
         Letters
       </Link>
-      <Search />
       <Navbar.Toggle aria-controls='responsive-navbar-nav'>
         <img
           alt='icon'
@@ -56,16 +44,20 @@ export const Header = (props) => {
         <Nav className='mr-auto'></Nav>
         {user ? (
           <>
-            Signed in as {user.name}
-            &nbsp;
-            <PrimaryButton modifiers='warning' onClick={onLogout}>
-              Logout
-            </PrimaryButton>
+            <Nav>
+              <Link to='/browse-categories'>Browse Categories</Link>
+              <a href='#'>
+                Signed in as <strong>{user.name}</strong>
+              </a>
+              <PrimaryButton modifiers='warning' onClick={onLogout}>
+                Logout
+              </PrimaryButton>
+            </Nav>
           </>
         ) : (
           <>
             <Nav>
-              <Link to='#'>Browse Categories</Link>
+              <Link to='/browse-categories'>Browse Categories</Link>
               <Link to='/login'>Login</Link>
               <Link to='/register'>Register</Link>
             </Nav>
