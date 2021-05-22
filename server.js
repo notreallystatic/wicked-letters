@@ -5,6 +5,7 @@ const express = require('express'),
   mongoose = require('mongoose'),
   environment = require('./utils').environment,
   path = require('path');
+const { admin } = require('googleapis/build/src/apis/admin');
 
 const app = express();
 // app.use(express.static(path.join(__dirname, 'client', 'build')));
@@ -25,10 +26,12 @@ app.use(bodyParser.json());
 
 app.get('/', (req, res) => res.send('hello from the other side!'));
 const authRoutes = require('./routes/authRoutes'),
-  userRoutes = require('./routes/userRoutes');
+  userRoutes = require('./routes/userRoutes'),
+  adminRoutes = require('./routes/adminRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/admin', adminRoutes);
 
 app.use((err, req, res, next) => {
   if (!err.statusCode) {
@@ -44,6 +47,7 @@ mongoose
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
+    useFindAndModify: false,
   })
   .then(() => {
     console.log('Connected with DB.');

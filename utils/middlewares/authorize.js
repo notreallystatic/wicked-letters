@@ -1,4 +1,4 @@
-const User = require('express'),
+const express = require('express'),
   RefreshToken = require('../../models/RefreshToken'),
   jwt = require('jsonwebtoken'),
   authHelpers = require('../index').authHelpers;
