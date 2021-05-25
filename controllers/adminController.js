@@ -1,3 +1,4 @@
+const Review = require('../models/Review');
 const User = require('../models/User'),
   Category = require('../models/Category'),
   Newsletter = require('../models/Newsletter');
@@ -44,9 +45,20 @@ exports.addNewsletter = async (req, res, next) => {
 exports.deleteCategory = async (req, res, next) => {
   try {
     const { _id, title } = req.body;
+    // delete the category
     const deletedCategory = await Category.findOneAndDelete(_id ? _id : title);
-    // delete all the associated newsletter and the associated reviews.
-    res.status(200).json({ message: 'Successfully delete newsletter.' });
+    // delete all the associated newsletter.
+    deletedCategory.newsletters.forEach(async (newsletterId) => {
+      // delete the associated reviews.
+      const deletedNewsletter = await Newsletter.findByIdAndDelete(
+        newsletterId
+      );
+      deletedNewsletter.reviews.forEach(async (ratingId) => {
+        await Review.findByIdAndDelete(ratingId);
+      });
+    });
+    res.status(200).json(deletedCategory);
+    // res.status(200).json({ message: 'Successfully delete Category.' });
   } catch (err) {
     next(err);
   }
@@ -54,11 +66,14 @@ exports.deleteCategory = async (req, res, next) => {
 
 exports.deleteNewsletter = async (req, res, next) => {
   try {
-    const { _id, title } = req.body;
-    const deletedNewsletter = await Newsletter.findOneAndDelete(
-      _id ? _id : title
-    );
-    res.status(200).json(deletedNewsletter);
+    const { _id } = req.body;
+    // delete the newsletter
+    const deletedNewsletter = await Newsletter.findByIdAndDelete(_id);
+    // delete associated reviews
+    deletedNewsletter.reviews.forEach(async (reviewId) => {
+      await Review.findByIdAndDelete(reviewId);
+    });
+    res.status(200).json('Successfully deleted the newsletter.');
   } catch (err) {
     next(err);
   }

@@ -7,25 +7,25 @@ const adminController = require('../controllers/adminController');
 
 router.get('/home', authorize, authorizeAdmin, adminController.home);
 router.post(
-  '/add-category',
+  '/category',
   authorize,
   authorizeAdmin,
   adminController.addCategory
 );
-router.post(
-  '/add-newsletter',
-  authorize,
-  authorizeAdmin,
-  adminController.addNewsletter
-);
-router.post(
-  '/delete-category',
+router.delete(
+  '/category',
   authorize,
   authorizeAdmin,
   adminController.deleteCategory
 );
 router.post(
-  '/delete-newsletter',
+  '/newsletter',
+  authorize,
+  authorizeAdmin,
+  adminController.addNewsletter
+);
+router.delete(
+  '/newsletter',
   authorize,
   authorizeAdmin,
   adminController.deleteNewsletter
