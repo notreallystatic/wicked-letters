@@ -40,3 +40,26 @@ exports.addNewsletter = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.deleteCategory = async (req, res, next) => {
+  try {
+    const { _id, title } = req.body;
+    const deletedCategory = await Category.findOneAndDelete(_id ? _id : title);
+    // delete all the associated newsletter and the associated reviews.
+    res.status(200).json({ message: 'Successfully delete newsletter.' });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.deleteNewsletter = async (req, res, next) => {
+  try {
+    const { _id, title } = req.body;
+    const deletedNewsletter = await Newsletter.findOneAndDelete(
+      _id ? _id : title
+    );
+    res.status(200).json(deletedNewsletter);
+  } catch (err) {
+    next(err);
+  }
+};

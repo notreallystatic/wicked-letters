@@ -8,6 +8,7 @@ const newsletterSchema = new mongoose.Schema({
   description: { type: String, required: true },
   url: { type: String, required: true },
   imageUrl: { type: String, required: true },
+  rating: { type: Number, default: 0 },
   reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }],
   addedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 });

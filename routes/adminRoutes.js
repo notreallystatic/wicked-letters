@@ -18,5 +18,17 @@ router.post(
   authorizeAdmin,
   adminController.addNewsletter
 );
+router.post(
+  '/delete-category',
+  authorize,
+  authorizeAdmin,
+  adminController.deleteCategory
+);
+router.post(
+  '/delete-newsletter',
+  authorize,
+  authorizeAdmin,
+  adminController.deleteNewsletter
+);
 
 module.exports = router;
