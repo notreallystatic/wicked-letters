@@ -10,7 +10,7 @@ export const Footer = (props) => {
           Wicked Letters
           <br />
           <small>
-            <i class='fas fa-map-marker-alt'></i>&nbsp;Remote
+            <i className='fas fa-map-marker-alt'></i>&nbsp;Remote
           </small>
         </div>
         <div className='col-lg-3 '></div>
@@ -29,7 +29,7 @@ export const Footer = (props) => {
         </div>
       </div>
       <div className={`row ${style.copyright}`}>
-        <i class='fas fa-copyright'></i>&nbsp;Copyright 2021
+        <i className='fas fa-copyright'></i>&nbsp;Copyright 2021
       </div>
     </div>
   );

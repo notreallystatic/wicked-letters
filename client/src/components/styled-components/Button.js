@@ -126,3 +126,9 @@ export const TertiaryButton = styled(Button)`
   }
   ${applyStyleModifiers(BUTTON_MODIFIERS)};
 `;
+
+export const IconButton = styled(Button)`
+  min-width: auto;
+  border: 2px solid transparent;
+  ${applyStyleModifiers(BUTTON_MODIFIERS)}
+`;

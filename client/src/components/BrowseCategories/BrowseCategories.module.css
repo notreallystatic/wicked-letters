@@ -1,6 +1,5 @@
 
 .search {
-  position: absolute;
   margin-left: 50%;
   transform: translateX(-50%);
   max-width: 200px;
@@ -62,6 +61,22 @@
 @media (max-width: 422px) {
  
   .search {
-    max-width: 150px;
+    max-width: 300px;
+    width: 300px;
   }
+}
+
+.cardBody {
+  box-shadow: 0px 3px 6px #5D3665;
+}
+
+.card {
+  margin: 10px auto;
+  height: 100%;
+  box-shadow: 0px 2px 6px #5D3665!important;
+  transition: transform .28s ease!important;
+}
+
+.card:hover {
+  transform: scale(1.1);
 }

@@ -31,9 +31,9 @@ export const Register = (props) => {
 
   return (
     <div>
-      <h5 className='my-4 w-100 text-center'>
+      <p className='my-4 w-100 text-center'>
         Welcome aboard! Let us sign you up, real quick.
-      </h5>
+      </p>
       <div className={style.register}>
         <div className='row p-0 m-0 '>
           <img

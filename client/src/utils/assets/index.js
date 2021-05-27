@@ -3,6 +3,7 @@ import Home2 from './home-2.png';
 import Home3 from './home-3.png';
 import Login from './login.png';
 import Register from './register.svg';
+import ProfilePicture from './profile.svg';
 
 export const Illustrations = {
   Home1,
@@ -10,4 +11,5 @@ export const Illustrations = {
   Home3,
   Login,
   Register,
+  ProfilePicture,
 };

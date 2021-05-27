@@ -8,6 +8,7 @@ import { removeUser } from '../../redux';
 import { useSelector, shallowEqual } from 'react-redux';
 import axios from 'axios';
 import { PrimaryButton } from '../styled-components';
+import Icon from '@material-ui/core/Icon';
 
 export const Header = (props) => {
   const dispatch = useDispatch();
@@ -45,20 +46,29 @@ export const Header = (props) => {
         {user ? (
           <>
             <Nav>
-              <Link to='/browse-categories'>Browse Categories</Link>
-              <a href='#'>
-                Signed in as <strong>{user.name}</strong>
-              </a>
-              <PrimaryButton modifiers='warning' onClick={onLogout}>
-                Logout
+              <Link to='/categories'>Browse Categories</Link>
+              <Link to='/dashboard'>
+                <Icon>account_circle</Icon>
+                {user.name}
+                <strong></strong>
+              </Link>
+              <PrimaryButton
+                modifiers={['small', 'warning']}
+                onClick={onLogout}
+              >
+                <Icon>logout</Icon>Logout
               </PrimaryButton>
             </Nav>
           </>
         ) : (
           <>
             <Nav>
-              <Link to='/browse-categories'>Browse Categories</Link>
-              <Link to='/login'>Login</Link>
+              <Link to='/categories'>
+                <Icon>web</Icon>Browse Categories
+              </Link>
+              <Link to='/login'>
+                <Icon>login</Icon>Login
+              </Link>
               <Link to='/register'>Register</Link>
             </Nav>
           </>

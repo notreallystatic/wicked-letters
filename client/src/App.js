@@ -15,6 +15,8 @@ import {
   PublicRoute,
   Spinner,
   BrowseCategories,
+  ShowCategory,
+  Newsletter,
 } from './components';
 import './App.css';
 
@@ -54,11 +56,9 @@ export const App = (props) => {
               <PublicRoute exact path='/' component={Home} />
               <PublicRoute exact path='/register' component={Register} />
               <PublicRoute exact path='/login' component={Login} />
-              <Route
-                exact
-                path='/browse-categories'
-                component={BrowseCategories}
-              />
+              <Route exact path='/categories' component={BrowseCategories} />
+              <Route exact path='/categories/:id' component={ShowCategory} />
+              <Route exact path='/newsletter/:id' component={Newsletter} />
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
             </Switch>
           </div>

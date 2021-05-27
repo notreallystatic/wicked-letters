@@ -6,3 +6,11 @@
   min-height: 90vh;
   margin: 20px auto;
 }
+
+.push-up {
+  margin-top: -20px;
+}
+
+.material-icons {
+  vertical-align: middle;
+}

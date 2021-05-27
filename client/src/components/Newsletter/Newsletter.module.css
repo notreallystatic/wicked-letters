@@ -1,0 +1,6 @@
+.newsletterImage {
+  max-width: 100%;
+  max-height: 45vh;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}

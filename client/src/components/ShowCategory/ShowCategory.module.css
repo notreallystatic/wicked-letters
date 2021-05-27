@@ -1,0 +1,10 @@
+.card {
+  margin: 10px auto;
+  height: 100%;
+  box-shadow: 0px 2px 6px #5D3665!important;
+  transition: transform ease .28s!important;
+}
+
+.card:hover {
+  transform: scale(1.1);
+}
