@@ -14,3 +14,12 @@
 .material-icons {
   vertical-align: middle;
 }
+
+.hoverCursor:hover {
+  cursor: pointer;
+}
+
+.centerFlex {
+  display: flex;
+  justify-content: center;
+}

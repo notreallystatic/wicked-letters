@@ -20,10 +20,15 @@ import Icon from '@material-ui/core/Icon';
 import Avatar from '@material-ui/core/Avatar';
 import { Illustrations } from '../../utils';
 import Modal from '@material-ui/core/Modal';
+import { AddReview } from '../AddReview/AddReview.js';
+import { EditReview } from '../EditReview/EditReview.js';
+import { DeleteReview } from '../DeleteReview/DeleteReview.js';
+import { PrimaryButton } from '../styled-components';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  card: {
     maxWidth: 345,
+    margin: 'auto',
   },
   modal: {
     display: 'flex',
@@ -40,11 +45,15 @@ const useStyles = makeStyles((theme) => ({
 
 export const Newsletter = (props) => {
   const classes = useStyles();
-  const [newsletter, setNewsletter] = useState({});
-  const [reviews, setReviews] = useState([]);
+  const [newsletter, setNewsletter] = useState(undefined);
+  const [reviews, setReviews] = useState(undefined);
   const [loading, setLoading] = useState(true);
   const user = useSelector((state) => state.user, shallowEqual);
   const [open, setOpen] = useState(false);
+  const [reviewPresent, setReviewPresent] = useState(-1);
+  const [editModal, setEditModal] = useState(false);
+  const [addModal, setAddModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
   const [index, setIndex] = useState(0);
 
   const handleOpen = (index) => {
@@ -56,6 +65,20 @@ export const Newsletter = (props) => {
     setOpen(false);
   };
 
+  const onEdit = () => {
+    setIndex(reviewPresent);
+    setEditModal(true);
+  };
+
+  const onAdd = () => {
+    setAddModal(true);
+  };
+
+  const onDelete = () => {
+    setIndex(reviewPresent);
+    setDeleteModal(true);
+  };
+
   useEffect(() => {
     const newsletterId = props.match.params.id;
     axios
@@ -64,14 +87,19 @@ export const Newsletter = (props) => {
         console.log(res.data);
         setNewsletter(res.data);
         setReviews(res.data.reviews);
-        setLoading(false);
+        res.data.reviews.forEach((review, index) => {
+          if (review.userId === user._id) {
+            setReviewPresent(index);
+          }
+        });
       })
       .catch((err) => {
-        alert(err);
+        console.log(err);
+        // alert(err);
       });
   }, []);
 
-  return loading ? (
+  return !(newsletter && reviews) ? (
     <Spinner />
   ) : (
     <>
@@ -99,9 +127,7 @@ export const Newsletter = (props) => {
             <Box component='fieldset' mb={3} borderColor='transparent'>
               <Rating
                 name='disabled'
-                value={parseFloat(
-                  newsletter.rating / newsletter.reviews.length
-                )}
+                value={newsletter.rating}
                 readOnly
                 precision={0.5}
                 size='large'
@@ -119,14 +145,39 @@ export const Newsletter = (props) => {
             <Typography variant='body2' component='p'>
               {newsletter.description}
             </Typography>
+            <Box component='fieldset' borderColor='transparent'>
+              <div className='row m-0 mt-3 p-0 '>
+                {' '}
+                {reviewPresent > -1 ? (
+                  <>
+                    <div className='col-xs-6 col-md-4 m-0 p-0 my-1'>
+                      <PrimaryButton modifiers={['warning']} onClick={onEdit}>
+                        Edit
+                      </PrimaryButton>
+                    </div>
+                    <div className='col-xs-6 col-md-4 m-0 p-0 my-1'>
+                      <PrimaryButton modifiers={['error']} onClick={onDelete}>
+                        Delete
+                      </PrimaryButton>
+                    </div>
+                  </>
+                ) : (
+                  <div className='col-xs-12 col-md-4 m-0 p-0 my-1'>
+                    <PrimaryButton modifiers={['success']} onClick={onAdd}>
+                      <Icon>add</Icon>Review
+                    </PrimaryButton>
+                  </div>
+                )}
+              </div>
+            </Box>
           </div>
         </div>
         <div className='row m-0 my-3 p-0 '>
           {reviews.map((review, index) => {
             return (
-              <Col xs={6} md={4} lg={3} className={`my-3`} key={index}>
+              <Col xs={6} md={4} lg={3} className={`my-3 mx-0 p-0`} key={index}>
                 <Card
-                  className={classes.root + ' ' + style.card}
+                  className={classes.card + ' ' + style.card}
                   onClick={() => handleOpen(index)}
                 >
                   <CardHeader
@@ -171,10 +222,16 @@ export const Newsletter = (props) => {
                   </CardActionArea>
                   {user && user._id === review.userId ? (
                     <CardActions>
-                      <IconButton modifiers={['small', 'warning']}>
+                      <IconButton
+                        modifiers={['small', 'warning']}
+                        onClick={onEdit}
+                      >
                         <Icon>mode_edit</Icon>
                       </IconButton>
-                      <IconButton modifiers={['small', 'error']}>
+                      <IconButton
+                        modifiers={['small', 'error']}
+                        onClick={onDelete}
+                      >
                         <Icon>delete_outline</Icon>
                       </IconButton>
                     </CardActions>
@@ -183,64 +240,113 @@ export const Newsletter = (props) => {
               </Col>
             );
           })}
-          <Modal
-            open={open}
-            onClose={handleClose}
-            className={classes.modal}
-            aria-labelledby='simple-modal-title'
-            aria-describedby='simple-modal-description'
-          >
-            <Card
-              className={classes.root + ' ' + style.card + ' ' + classes.paper}
-              onClick={() => handleOpen(index)}
+          {reviews.length ? (
+            <Modal
+              open={open}
+              onClose={handleClose}
+              className={classes.modal}
+              aria-labelledby='simple-modal-title'
+              aria-describedby='simple-modal-description'
             >
-              <CardHeader
-                avatar={
-                  <Avatar
-                    alt={reviews[index].name}
-                    src={Illustrations.ProfilePicture}
-                    className={classes.root}
-                  />
+              <Card
+                className={
+                  classes.root + ' ' + style.card + ' ' + classes.paper
                 }
-                title={reviews[index].name}
-                subheader={
-                  <>
-                    <Rating
-                      name='disabled'
-                      value={reviews[index].rating}
-                      readOnly
-                      size='small'
-                      precision={0.5}
-                      emptyIcon={<StarBorderIcon fontSize='inherit' />}
+                onClick={() => handleOpen(index)}
+              >
+                <CardHeader
+                  avatar={
+                    <Avatar
+                      alt={reviews[index].name}
+                      src={Illustrations.ProfilePicture}
+                      className={classes.root}
                     />
-                    <Typography variant='caption' display='block'>
-                      {reviews[index].rating}&nbsp; stars
+                  }
+                  title={reviews[index].name}
+                  subheader={
+                    <>
+                      <Rating
+                        name='disabled'
+                        value={reviews[index].rating}
+                        readOnly
+                        size='small'
+                        precision={0.5}
+                        emptyIcon={<StarBorderIcon fontSize='inherit' />}
+                      />
+                      <Typography variant='caption' display='block'>
+                        {reviews[index].rating}&nbsp; stars
+                      </Typography>
+                    </>
+                  }
+                />
+                <CardActionArea>
+                  <CardContent>
+                    <Typography
+                      variant='body2'
+                      color='textSecondary'
+                      component='p'
+                    >
+                      {reviews[index].review}
                     </Typography>
-                  </>
-                }
+                  </CardContent>
+                </CardActionArea>
+                {user && user._id === reviews[index].userId ? (
+                  <CardActions>
+                    <IconButton
+                      modifiers={['small', 'warning']}
+                      onClick={onEdit}
+                    >
+                      <Icon>mode_edit</Icon>
+                    </IconButton>
+                    <IconButton
+                      modifiers={['small', 'error']}
+                      onClick={onDelete}
+                    >
+                      <Icon>delete_outline</Icon>
+                    </IconButton>
+                  </CardActions>
+                ) : null}
+              </Card>
+            </Modal>
+          ) : null}
+
+          <Modal
+            open={addModal}
+            onClose={() => setAddModal(false)}
+            className={`${classes.modal} m-0 p-0`}
+          >
+            {newsletter ? (
+              <AddReview
+                newsletterId={props.match.params.id}
+                imageUrl={newsletter.imageUrl}
+                title={newsletter.title}
               />
-              <CardActionArea>
-                <CardContent>
-                  <Typography
-                    variant='body2'
-                    color='textSecondary'
-                    component='p'
-                  >
-                    {reviews[index].review}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-              {user && user._id === reviews[index].userId ? (
-                <CardActions>
-                  <IconButton modifiers={['small', 'warning']}>
-                    <Icon>mode_edit</Icon>
-                  </IconButton>
-                  <IconButton modifiers={['small', 'error']}>
-                    <Icon>delete_outline</Icon>
-                  </IconButton>
-                </CardActions>
-              ) : null}
-            </Card>
+            ) : null}
+          </Modal>
+          <Modal
+            open={deleteModal}
+            onClose={() => setDeleteModal(false)}
+            className={`${classes.modal} m-0 p-0`}
+          >
+            {newsletter && reviews.length ? (
+              <DeleteReview
+                reviewId={reviews[index]._id}
+                newsletterId={props.match.params.id}
+                onClose={() => setDeleteModal(false)}
+              />
+            ) : null}
+          </Modal>
+          <Modal
+            open={editModal}
+            onClose={() => setEditModal(false)}
+            className={`${classes.modal} m-0 p-0`}
+          >
+            {newsletter && reviews.length ? (
+              <EditReview
+                prevReview={reviews[index]}
+                onClose={() => setEditModal(false)}
+              />
+            ) : null}
           </Modal>
         </div>
       </div>

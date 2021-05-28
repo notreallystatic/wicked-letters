@@ -107,7 +107,7 @@ export const ShowCategory = (props) => {
                       >
                         <Rating
                           name='disabled'
-                          value={parseFloat(nl.rating / nl.reviews.length)}
+                          value={nl.rating}
                           readOnly
                           precision={0.5}
                           emptyIcon={<StarBorderIcon fontSize='inherit' />}
