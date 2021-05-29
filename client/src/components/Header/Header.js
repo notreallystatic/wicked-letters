@@ -20,7 +20,8 @@ export const Header = (props) => {
       .then((res) => {
         alert(res.data.message);
         dispatch(removeUser());
-        props.history.push('/');
+        window.location.reload();
+        // props.history.push('/');
       })
       .catch((err) => {
         console.log(err);

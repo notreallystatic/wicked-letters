@@ -31,7 +31,6 @@ export const AddReview = ({ onClose, newsletterId, title, imageUrl }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log('inside onsubmit');
     axios
       .post('/user/rate-newsletter', {
         rating: rating,
@@ -43,7 +42,8 @@ export const AddReview = ({ onClose, newsletterId, title, imageUrl }) => {
         window.location.reload();
       })
       .catch((err) => {
-        console.log('Error in submitting your review.');
+        console.log(err.message);
+        // console.log('Error in submitting your review.');
       });
   };
 

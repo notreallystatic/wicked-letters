@@ -101,6 +101,7 @@ exports.refreshAccessToken = async (req, res, next) => {
         email: user.email,
         contact: user.contact,
         isVerified: user.isVerified,
+        isAdmin: user.isAdmin,
       });
       res.status(200).json({ 'access-token': jwtToken });
     }

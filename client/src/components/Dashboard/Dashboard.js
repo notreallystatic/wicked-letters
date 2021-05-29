@@ -84,7 +84,7 @@ export const Dashboard = (props) => {
         setLoading(false);
       })
       .catch((err) => {
-        alert(err.message);
+        console.log(err.message);
       });
   }, [user]);
 

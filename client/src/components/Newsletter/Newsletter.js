@@ -46,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    maxWidth: '100%',
   },
   paper: {
     backgroundColor: theme.palette.background.paper,
@@ -77,8 +78,8 @@ export const Newsletter = (props) => {
     setOpen(false);
   };
 
-  const onEdit = () => {
-    setIndex(reviewPresent);
+  const onEdit = (index) => {
+    setIndex(index);
     setEditModal(true);
   };
 
@@ -86,8 +87,8 @@ export const Newsletter = (props) => {
     setAddModal(true);
   };
 
-  const onDelete = () => {
-    setIndex(reviewPresent);
+  const onDelete = (index) => {
+    setIndex(index);
     setDeleteModal(true);
   };
 
@@ -96,7 +97,6 @@ export const Newsletter = (props) => {
     axios
       .get('/user/newsletter/' + newsletterId)
       .then((res) => {
-        console.log(res.data);
         setNewsletter(res.data);
         setReviews(res.data.reviews);
         res.data.reviews.forEach((review, index) => {
@@ -106,8 +106,7 @@ export const Newsletter = (props) => {
         });
       })
       .catch((err) => {
-        console.log(err);
-        // alert(err);
+        console.log('Error in submitting your review.');
       });
   }, []);
 
@@ -163,7 +162,10 @@ export const Newsletter = (props) => {
                 {reviewPresent > -1 ? (
                   <div className='row m-0 p-0 w-100'>
                     <div className='col-6 m-0 p-0 py-1'>
-                      <PrimaryButton modifiers={['warning']} onClick={onEdit}>
+                      <PrimaryButton
+                        modifiers={['warning']}
+                        onClick={() => onEdit(reviewPresent)}
+                      >
                         <small>
                           <Icon style={{ fontSize: '1rem' }}>edit</Icon>
                           &nbsp; Edit Review
@@ -171,7 +173,10 @@ export const Newsletter = (props) => {
                       </PrimaryButton>
                     </div>
                     <div className='col-6 m-0 p-0 py-1'>
-                      <PrimaryButton modifiers={['error']} onClick={onDelete}>
+                      <PrimaryButton
+                        modifiers={['error']}
+                        onClick={() => onDelete(reviewPresent)}
+                      >
                         <small>
                           <Icon style={{ fontSize: '1rem' }}>delete</Icon>&nbsp;
                           Delete
@@ -260,13 +265,22 @@ export const Newsletter = (props) => {
                     <CardActions>
                       <IconButton
                         modifiers={['small', 'warning']}
-                        onClick={onEdit}
+                        onClick={() => onEdit(index)}
                       >
                         <Icon>mode_edit</Icon>
                       </IconButton>
                       <IconButton
                         modifiers={['small', 'error']}
-                        onClick={onDelete}
+                        onClick={() => onDelete(index)}
+                      >
+                        <Icon>delete_outline</Icon>
+                      </IconButton>
+                    </CardActions>
+                  ) : user && user.isAdmin ? (
+                    <CardActions>
+                      <IconButton
+                        modifiers={['small', 'error']}
+                        onClick={() => onDelete(index)}
                       >
                         <Icon>delete_outline</Icon>
                       </IconButton>
@@ -276,7 +290,7 @@ export const Newsletter = (props) => {
               </Col>
             );
           })}
-          {reviews.length ? (
+          {reviews.length > 0 ? (
             <Modal
               open={open}
               onClose={handleClose}

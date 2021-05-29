@@ -87,7 +87,7 @@ exports.rateNewsletter = async (req, res, next) => {
       // push the review on the newsletter
       const findNewsletter = await Newsletter.findById(newsletterId);
       const newNewsletterRating =
-        (findNewsletter.rating + rating) /
+        (findNewsletter.rating * findNewsletter.reviews.length + rating) /
         parseFloat(findNewsletter.reviews.length + 1);
       await newReview.save();
       await Newsletter.findOneAndUpdate(
@@ -101,6 +101,7 @@ exports.rateNewsletter = async (req, res, next) => {
       res.status(200).json({ message: 'Successfully posted you review' });
     }
   } catch (err) {
+    console.log(err.message);
     next(err);
   }
 };
@@ -138,8 +139,10 @@ exports.deleteRating = async (req, res, next) => {
     const { reviewId, newsletterId } = req.body;
     const deletedReview = await Review.findByIdAndDelete(reviewId);
     const newsletter = await Newsletter.findById(newsletterId);
-    newsletter.rating -= deletedReview.rating;
+    newsletter.rating *= newsletter.reviews.length;
+    newsletter.rating -= parseFloat(deletedReview.rating);
     newsletter.reviews.pull({ _id: reviewId });
+    newsletter.rating /= parseFloat(newsletter.reviews.length);
     await newsletter.save();
     res.status(200).json({ message: 'Successfully deleted your review' });
   } catch (err) {
