@@ -2,7 +2,9 @@ const User = require('../models/User'),
   RefreshToken = require('../models/RefreshToken'),
   authHelpers = require('../utils').authHelpers,
   Token = require('../models/Token'),
-  Mailer = require('../utils/mailer');
+  Mailer = require('../utils/mailer'),
+  crypto = require('crypto');
+
 
 exports.register = async (req, res, next) => {
   try {
@@ -32,10 +34,8 @@ exports.register = async (req, res, next) => {
       await token.save();
       Mailer(newUser.email, req.headers.host, token.token);
 
-      // set the refresh-token cookit
-      authHelpers.setCookie(res, 'refresh-token', newRefreshToken._id);
-      // return the access-token, to store in redux.
-      res.status(200).json({ 'access-token': jwtToken });
+      // return response.
+      res.status(200).json({ 'message':'Registration Successfull'});
     }
   } catch (err) {
     next(err);
@@ -56,11 +56,12 @@ exports.login = async (req, res, next) => {
         const error = new Error('Incorrect password.');
         error.statusCode = 403;
         next(error);
-      } else {
-
-        // Make sure the user has been verified
-        if (!user.isVerified) return res.status(401).send({ type: 'not-verified', msg: 'Your account has not been verified.' });
-
+      } else // Make sure the user has been verified
+        if (!user.isVerified) {
+          const error = new Error('not-verified');
+          error.statusCode = 402;
+          next(error);
+        } else {
         // create jwtToken & create refresh token
         const newRefreshToken = new RefreshToken({
           user: user._id,

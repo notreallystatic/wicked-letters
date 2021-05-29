@@ -10,7 +10,7 @@ var mailer =(receiverEmail,host,token)=>{
       });
      
       var content = 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' 
-                    + host +'\/user\/'+ 'emailConfirmation\/' + token + '.\n' ;
+        + host + '\/api\/' + 'auth\/'+ 'emailConfirmation\/' + token + '.\n' ;
       var mailOptions = {
         from: 'vritiemailtesting@gmail.com',
         to: receiverEmail,

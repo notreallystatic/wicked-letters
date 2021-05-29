@@ -22,8 +22,8 @@ export const Register = (props) => {
         password: password,
       })
       .then((res) => {
-        dispatch(setUser({ token: res.data['access-token'] }));
-        props.history.push('/dashboard');
+        alert(res.data.message);
+        props.history.push('/login');
       })
       .catch((err) => {
         alert(err.response.data.message);
