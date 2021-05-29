@@ -46,11 +46,13 @@ export const DeleteReview = ({ reviewId, newsletterId, onClose }) => {
         <div className='row m-0 mb-3 p-0 justify-content-around'>
           <div className='col-xs-12 col-md-4 m-0 p-0 my-1 centerFlex'>
             <PrimaryButton modifiers={['error']} onClick={onDelete}>
+              <Icon>delete</Icon>
               Delete
             </PrimaryButton>
           </div>
           <div className='col-xs-12 col-md-4 m-0 p-0 my-1 centerFlex'>
             <PrimaryButton modifiers={['warning']} onClick={onCancel}>
+              <Icon>cancel</Icon>
               Cancel
             </PrimaryButton>
           </div>

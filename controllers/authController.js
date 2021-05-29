@@ -21,7 +21,8 @@ exports.register = async (req, res, next) => {
       const jwtToken = authHelpers.generateJwtToken({
         name,
         email,
-        _id,
+        isAdmin: newUser.isAdmin,
+        _id: newUser._id,
         isVerified: false,
       });
       // set the refresh-token cookit
@@ -60,6 +61,7 @@ exports.login = async (req, res, next) => {
           name: user.name,
           email: user.email,
           contact: user.contact,
+          isAdmin: user.isAdmin,
           isVerified: user.isVerified,
         });
         authHelpers.setCookie(res, 'refresh-token', newRefreshToken._id);

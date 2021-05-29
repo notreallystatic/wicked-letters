@@ -5,6 +5,7 @@ import { setUser } from '../../redux';
 import { Label, PrimaryButton, Input } from '../styled-components';
 import style from './Register.module.css';
 import { Illustrations } from '../../utils';
+import Icon from '@material-ui/core/Icon';
 
 export const Register = (props) => {
   const [email, setEmail] = useState('');
@@ -74,6 +75,7 @@ export const Register = (props) => {
                 type='submit'
                 className={`mt-4 mb-2 ${style.center}`}
               >
+                <Icon>person_add</Icon>
                 Register
               </PrimaryButton>
             </form>

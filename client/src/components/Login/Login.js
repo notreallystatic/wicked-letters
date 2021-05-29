@@ -5,6 +5,7 @@ import { setUser } from '../../redux';
 import { Label, PrimaryButton, Input } from '../styled-components';
 import style from './Login.module.css';
 import { Illustrations } from '../../utils';
+import Icon from '@material-ui/core/Icon';
 
 export const Login = (props) => {
   const [email, setEmail] = useState('');
@@ -70,6 +71,7 @@ export const Login = (props) => {
                     type='submit'
                     className={style.center + ' my-4'}
                   >
+                    <Icon>login</Icon>
                     Log in
                   </PrimaryButton>
                 </div>

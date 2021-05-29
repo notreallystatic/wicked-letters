@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
   reviewCard: {
     height: '100%',
-    maxHeight: 220,
+    maxHeight: 250,
   },
   media: {
     height: 0,
@@ -171,7 +171,7 @@ export const Dashboard = (props) => {
                     xs={6}
                     md={6}
                     lg={6}
-                    className={`my-3 m-0 p-1 `}
+                    className={`my-3 m-0 p-2 `}
                     key={index}
                   >
                     <Card className={classes.card + ' ' + classes.reviewCard}>
@@ -184,7 +184,6 @@ export const Dashboard = (props) => {
                             <Avatar
                               alt={review.newsletterId.title}
                               src={review.newsletterId.imageUrl}
-                              className={classes.root}
                             />
                           }
                           title={

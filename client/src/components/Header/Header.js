@@ -46,7 +46,9 @@ export const Header = (props) => {
         {user ? (
           <>
             <Nav>
-              <Link to='/categories'>Browse Categories</Link>
+              <Link to='/categories'>
+                <Icon>category</Icon>Browse Categories
+              </Link>
               <Link to='/dashboard'>
                 <Icon>account_circle</Icon>
                 {user.name}
@@ -64,12 +66,14 @@ export const Header = (props) => {
           <>
             <Nav>
               <Link to='/categories'>
-                <Icon>web</Icon>Browse Categories
+                <Icon>category</Icon>Browse Categories
               </Link>
               <Link to='/login'>
                 <Icon>login</Icon>Login
               </Link>
-              <Link to='/register'>Register</Link>
+              <Link to='/register'>
+                <Icon>person_add</Icon>Register
+              </Link>
             </Nav>
           </>
         )}

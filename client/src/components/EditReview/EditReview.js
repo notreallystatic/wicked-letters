@@ -96,8 +96,10 @@ export const EditReview = ({ prevReview }) => {
             <div className='row m-0 p-0'>
               <PrimaryButton
                 type='submit'
+                modifiers={['warning']}
                 style={{ marginLeft: '50%', transform: 'translateX(-50%)' }}
               >
+                <Icon>edit</Icon>
                 Submit
               </PrimaryButton>
             </div>

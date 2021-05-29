@@ -29,6 +29,18 @@ const useStyles = makeStyles((theme) => ({
   card: {
     maxWidth: 345,
     margin: 'auto',
+    height: '100%',
+  },
+  reviewCard: {
+    height: '100%',
+    maxHeight: 250,
+  },
+  media: {
+    height: 0,
+    paddingTop: '100%',
+  },
+  fab: {
+    margin: theme.spacing(2),
   },
   modal: {
     display: 'flex',
@@ -149,77 +161,93 @@ export const Newsletter = (props) => {
               <div className='row m-0 mt-3 p-0 '>
                 {' '}
                 {reviewPresent > -1 ? (
-                  <>
-                    <div className='col-xs-6 col-md-4 m-0 p-0 my-1'>
+                  <div className='row m-0 p-0 w-100'>
+                    <div className='col-6 m-0 p-0 py-1'>
                       <PrimaryButton modifiers={['warning']} onClick={onEdit}>
-                        Edit
+                        <small>
+                          <Icon style={{ fontSize: '1rem' }}>edit</Icon>
+                          &nbsp; Edit Review
+                        </small>
                       </PrimaryButton>
                     </div>
-                    <div className='col-xs-6 col-md-4 m-0 p-0 my-1'>
+                    <div className='col-6 m-0 p-0 py-1'>
                       <PrimaryButton modifiers={['error']} onClick={onDelete}>
-                        Delete
+                        <small>
+                          <Icon style={{ fontSize: '1rem' }}>delete</Icon>&nbsp;
+                          Delete
+                        </small>
                       </PrimaryButton>
                     </div>
-                  </>
-                ) : (
+                  </div>
+                ) : user.isVerified ? (
                   <div className='col-xs-12 col-md-4 m-0 p-0 my-1'>
                     <PrimaryButton modifiers={['success']} onClick={onAdd}>
                       <Icon>add</Icon>Review
                     </PrimaryButton>
+                  </div>
+                ) : (
+                  <div className='col-xs-12 col-md-4 m-0 p-0 my-1 warning'>
+                    <PrimaryButton disabled>
+                      <Icon>add</Icon>Review
+                    </PrimaryButton>
+                    <br />
+                    <small>Verify your account to add your review.</small>
                   </div>
                 )}
               </div>
             </Box>
           </div>
         </div>
-        <div className='row m-0 my-3 p-0 '>
+        <div className='row m-0 my-3 p-1 '>
           {reviews.map((review, index) => {
             return (
-              <Col xs={6} md={4} lg={3} className={`my-3 mx-0 p-0`} key={index}>
-                <Card
-                  className={classes.card + ' ' + style.card}
-                  onClick={() => handleOpen(index)}
-                >
-                  <CardHeader
-                    avatar={
-                      <Avatar
-                        alt={review.name}
-                        src={Illustrations.ProfilePicture}
-                        className={classes.root}
-                      />
-                    }
-                    title={review.name}
-                    subheader={
-                      <>
-                        <Rating
-                          name='disabled'
-                          value={review.rating}
-                          readOnly
-                          size='small'
-                          precision={0.5}
-                          emptyIcon={<StarBorderIcon fontSize='inherit' />}
+              <Col xs={6} md={4} lg={3} className={`my-3 mx-0 p-2`} key={index}>
+                <Card className={classes.card + ' ' + style.card}>
+                  <div
+                    onClick={() => handleOpen(index)}
+                    className='hoverCursor'
+                  >
+                    <CardHeader
+                      avatar={
+                        <Avatar
+                          alt={review.name}
+                          src={Illustrations.ProfilePicture}
+                          className={classes.root}
                         />
-                        <Typography variant='caption' display='block'>
-                          {review.rating}&nbsp; stars
+                      }
+                      title={review.name}
+                      subheader={
+                        <>
+                          <Rating
+                            name='disabled'
+                            value={review.rating}
+                            readOnly
+                            size='small'
+                            precision={0.5}
+                            emptyIcon={<StarBorderIcon fontSize='inherit' />}
+                          />
+                          <Typography variant='caption' display='block'>
+                            {review.rating}&nbsp; stars
+                          </Typography>
+                        </>
+                      }
+                    />
+                    <CardActionArea>
+                      <CardContent>
+                        <Typography
+                          variant='body2'
+                          color='textSecondary'
+                          component='p'
+                        >
+                          {review.review.substr(
+                            0,
+                            Math.min(review.review.length, 100)
+                          )}
+                          ...
                         </Typography>
-                      </>
-                    }
-                  />
-                  <CardActionArea>
-                    <CardContent>
-                      <Typography
-                        variant='body2'
-                        color='textSecondary'
-                        component='p'
-                      >
-                        {review.review.substr(
-                          0,
-                          Math.min(review.review.length, 100)
-                        )}
-                        ...
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
+                      </CardContent>
+                    </CardActionArea>
+                  </div>
                   {user && user._id === review.userId ? (
                     <CardActions>
                       <IconButton
