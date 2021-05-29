@@ -141,7 +141,7 @@ export const Newsletter = (props) => {
                 name='disabled'
                 value={newsletter.rating}
                 readOnly
-                precision={0.5}
+                precision={0.1}
                 size='large'
                 emptyIcon={<StarBorderIcon fontSize='inherit' />}
                 style={{
@@ -179,11 +179,19 @@ export const Newsletter = (props) => {
                       </PrimaryButton>
                     </div>
                   </div>
-                ) : user.isVerified ? (
+                ) : user && user.isVerified ? (
                   <div className='col-xs-12 col-md-4 m-0 p-0 my-1'>
                     <PrimaryButton modifiers={['success']} onClick={onAdd}>
                       <Icon>add</Icon>Review
                     </PrimaryButton>
+                  </div>
+                ) : user ? (
+                  <div className='col-xs-12 col-md-4 m-0 p-0 my-1 warning'>
+                    <PrimaryButton disabled>
+                      <Icon>add</Icon>Review
+                    </PrimaryButton>
+                    <br />
+                    <small>Verify your account to add your review.</small>
                   </div>
                 ) : (
                   <div className='col-xs-12 col-md-4 m-0 p-0 my-1 warning'>
@@ -191,7 +199,7 @@ export const Newsletter = (props) => {
                       <Icon>add</Icon>Review
                     </PrimaryButton>
                     <br />
-                    <small>Verify your account to add your review.</small>
+                    <small>Sign in to add your review.</small>
                   </div>
                 )}
               </div>
