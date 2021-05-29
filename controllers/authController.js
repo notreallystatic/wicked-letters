@@ -1,6 +1,8 @@
 const User = require('../models/User'),
   RefreshToken = require('../models/RefreshToken'),
-  authHelpers = require('../utils').authHelpers;
+  authHelpers = require('../utils').authHelpers,
+  Token = require('../models/Token'),
+  Mailer = require('../utils/mailer');
 
 exports.register = async (req, res, next) => {
   try {
@@ -25,6 +27,11 @@ exports.register = async (req, res, next) => {
         _id: newUser._id,
         isVerified: false,
       });
+
+      var token = new Token({ _userId: newUser._id, token: crypto.randomBytes(16).toString('hex') });
+      await token.save();
+      Mailer(newUser.email, req.headers.host, token.token);
+
       // set the refresh-token cookit
       authHelpers.setCookie(res, 'refresh-token', newRefreshToken._id);
       // return the access-token, to store in redux.
@@ -50,6 +57,10 @@ exports.login = async (req, res, next) => {
         error.statusCode = 403;
         next(error);
       } else {
+
+        // Make sure the user has been verified
+        if (!user.isVerified) return res.status(401).send({ type: 'not-verified', msg: 'Your account has not been verified.' });
+
         // create jwtToken & create refresh token
         const newRefreshToken = new RefreshToken({
           user: user._id,
@@ -109,3 +120,56 @@ exports.refreshAccessToken = async (req, res, next) => {
     next(err);
   }
 };
+
+
+
+exports.emailConfirmation = (req, res, next) => {
+  const token = req.params.token;
+
+  // Find a matching token
+  Token.findOne({ token }, function (err, token) {
+    if (!token) {
+      return res.status(400).send({ type: 'not-verified', msg: 'Invalid token' });
+    }
+    // If we found a token, find a matching user
+    User.findOne({ _id: token._userId }, function (err, user) {
+      if (!user) return res.status(400).send({ msg: 'We were unable to find a user for this token.' });
+      if (user.isVerified) return res.status(400).send({ type: 'already-verified', msg: 'This user has already been verified.' });
+
+      // Verify and save the user
+      user.isVerified = true;
+      user.save(function (err) {
+        if (err) { return res.status(500).send({ msg: err.message }); }
+        res.status(200).send("The account has been verified. Please log in.");
+      });
+    });
+  })
+}
+
+exports.resendToken = (req, res, next) => {
+  const email = req.body.email;
+  User.findOne({ email }, function (err, user) {
+    if (!user) return res.status(400).send({ msg: 'We were unable to find a user with that email.' });
+    if (user.isVerified) return res.status(400).send({ msg: 'This account has already been verified. Please log in.' });
+
+    // Check if token already exist for user then send that otherwise generate a new token.
+    Token.findOne({ _userId: user._id }, function (err, token) {
+      if (token) {
+        Mailer(user.email, req.headers.host, token.token);
+        return res.status(200).send('A verification email has been sent to ' + user.email + '.');
+      }
+
+      var token = new Token({ _userId: user._id, token: crypto.randomBytes(16).toString('hex') });
+      token.save(function (err) {
+        if (err) { return res.status(500).send({ msg: err.message }); }
+        // Send the email
+        Mailer(user.email, req.headers.host, token.token);
+        return res.status(200).send('A verification email has been sent to ' + user.email + '.');
+      });
+
+    })
+
+
+  })
+}
+
